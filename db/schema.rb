@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_29_212000) do
+ActiveRecord::Schema.define(version: 2023_08_06_022200) do
 
   create_table "clients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -20,11 +20,13 @@ ActiveRecord::Schema.define(version: 2023_07_29_212000) do
 
   create_table "contents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
+    t.integer "price"
     t.string "description"
     t.string "image_url"
     t.bigint "shop_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "max_reservations"
     t.index ["shop_id"], name: "index_contents_on_shop_id"
   end
 
@@ -34,6 +36,7 @@ ActiveRecord::Schema.define(version: 2023_07_29_212000) do
     t.datetime "reserved_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "number_of_people"
     t.index ["content_id"], name: "index_reserves_on_content_id"
     t.index ["user_id"], name: "index_reserves_on_user_id"
   end
@@ -53,6 +56,12 @@ ActiveRecord::Schema.define(version: 2023_07_29_212000) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "contents", "shops"
